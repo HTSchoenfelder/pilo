@@ -1,0 +1,2 @@
+   The application is accessible via the following URLs:
+   https://{{ .Values.ingressHost }}

@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install K3s
+      ansible.builtin.shell: "curl -sfL https://get.k3s.io | sh -"

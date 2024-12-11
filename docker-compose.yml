@@ -1,0 +1,30 @@
+services:
+  traefik:
+    image: traefik:3.2.2
+    command:
+      - "--entrypoints.web.address=:80"
+      - "--providers.docker=true"
+      - "--api.insecure=true"
+    ports:
+      - "80:80" 
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  piloapi:
+    image: piloapi
+    build:
+      context: ./app/pilo-api
+      dockerfile: ./Dockerfile
+    labels:
+      - "traefik.http.routers.piloapi.rule=PathPrefix(`/weatherforecast`)"
+      - "traefik.http.services.piloapi.loadbalancer.server.port=8080"
+
+  piloweb:
+    image: piloweb
+    build:
+      context: ./app/pilo-app
+      dockerfile: ./Dockerfile
+    labels:
+      - "traefik.http.routers.piloweb.rule=PathPrefix(`/`)"
+      - "traefik.http.services.piloweb.loadbalancer.server.port=80"

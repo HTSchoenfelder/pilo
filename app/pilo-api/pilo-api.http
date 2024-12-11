@@ -1,0 +1,6 @@
+@pilo_api_HostAddress = http://localhost:5246
+
+GET {{pilo_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

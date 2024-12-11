@@ -1,0 +1,20 @@
+- name: Retrieve SSH private key from Azure Key Vault
+  hosts: localhost
+  vars:
+    vault_name: "{{ vault_name }}"
+    secret_name: "ssh-private-key"
+  tasks:
+    - name: Get the private key from Key Vault
+      azure.azcollection.azure_rm_keyvaultsecret_info:
+        vault_uri: "https://{{ vault_name }}.vault.azure.net/"
+        name: "ssh_private_key"
+      register: ssh_private_key
+
+    - name: Save the private key to a temporary file
+      copy:
+        content: "{{ ssh_private_key.secrets[0].value }}"
+        dest: "/tmp/ansible_ssh_key"
+        mode: '0600'
+
+    - name: Example task
+      command: echo "Private key has been retrieved and saved."

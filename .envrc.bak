@@ -1,0 +1,4 @@
+export TF_VAR_resource_name=""
+export TF_VAR_resource_group_name=""
+export EMAIL="mail@henrikschoenfelder.de"
+export KUBECONFIG=~/.kube/config.k3s

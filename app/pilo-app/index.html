@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather Forecast</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temperature (°C)</th>
+                <th>Temperature (°F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody id="forecastTable">
+            <tr>
+                <td colspan="4">Loading data...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const url = '/weatherforecast';
+            const tableBody = document.getElementById('forecastTable');
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${new Date(item.date).toLocaleDateString()}</td>
+                            <td>${item.temperatureC}°C</td>
+                            <td>${item.temperatureF}°F</td>
+                            <td>${item.summary}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    tableBody.innerHTML = `<tr><td colspan="4">Error loading data: ${error.message}</td></tr>`;
+                });
+        });
+    </script>
+</body>
+</html>
