@@ -31,6 +31,9 @@ else
   echo "Image pilo-app:$LATEST_COMMIT already exists. Skipping build."
 fi
 
+echo "Waiting for the images to be available..."
+sleep 10
+
 helm upgrade --install pilo ./helm/pilo \
   --namespace pilo-app \
   --create-namespace \
