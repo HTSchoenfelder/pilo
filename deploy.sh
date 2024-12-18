@@ -49,6 +49,10 @@ cd "$SCRIPT_DIR/infrastructure/k3s/tls"
 echo "Deploying tls resources"
 ./setup-tls.sh
 
+cd "$SCRIPT_DIR/infrastructure/k3s/observability"
+echo "Deploying observability resources"
+./setup-observability.sh
+
 cd "$SCRIPT_DIR/app"
 echo "Deploying pilo"
 ./deploy-pilo.sh

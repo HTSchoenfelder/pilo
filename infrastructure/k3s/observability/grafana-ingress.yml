@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.middlewares: monitoring-add-grafana-prefix@kubernetescrd
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - secretName: letsencrypt-production-secret
+      hosts:
+        - pilo-rabbit.westeurope.cloudapp.azure.com
+  rules:
+    - host: pilo-rabbit.westeurope.cloudapp.azure.com
+      http:
+        paths:
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: add-grafana-prefix
+  namespace: monitoring
+spec:
+  addPrefix:
+    prefix: /grafana
+
