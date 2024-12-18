@@ -13,3 +13,5 @@ helm upgrade --install grafana grafana/grafana -f grafana-values.resolved.yaml -
 helm upgrade --install alloy grafana/alloy --namespace monitoring --create-namespace
 
 kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode | wl-copy 
+
+envsubst -i grafana-ingress.yml | kubectl apply -f -

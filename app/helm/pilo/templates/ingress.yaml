@@ -31,4 +31,3 @@ spec:
                 name: {{ .Release.Name }}-app
                 port:
                   number: 80
-

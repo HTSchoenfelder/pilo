@@ -2,12 +2,12 @@ grafana:
   grafana.ini:
     server:
       domain: ${K3S_VM_FQDN}
-      root_url: "%(protocol)s://%(domain)s/grafana"
+      root_url: https://${K3S_VM_FQDN}/grafana/
       serve_from_sub_path: true
   ingress:
     enabled: true
     hosts:
-      - "${K3S_VM_FQDN}"
+      - ${K3S_VM_FQDN}
     path: "/grafana"
 
   datasources:
@@ -17,6 +17,7 @@ grafana:
         - name: Loki
           type: loki
           access: proxy
+          orgId: 1
           url: http://loki-gateway.monitoring.svc.cluster.local
           isDefault: true
           jsonData:
